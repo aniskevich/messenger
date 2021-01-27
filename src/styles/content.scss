@@ -1,0 +1,9 @@
+@import "variables";
+
+.content {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  left: $sidebar-width;
+  width: 100%;
+}

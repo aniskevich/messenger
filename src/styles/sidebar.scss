@@ -1,0 +1,10 @@
+@import "variables";
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: $sidebar-width;
+  height: 100vh;
+  background-color: $primary-color;
+}

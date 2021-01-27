@@ -12,7 +12,7 @@ const filename = ext => isDev ? `bundle.${ext}` : `bundle.[chunkhash].${ext}`
 module.exports = {
   mode: process.env.NODE_ENV,
   context: path.resolve(__dirname, 'src'),
-  entry: ['./index.ts'],
+  entry: ['./index.tsx'],
   output: {
     filename: filename('js'),
     path: path.resolve(__dirname, 'dist'),
@@ -21,6 +21,7 @@ module.exports = {
   devServer: {
     port: 8080,
     hot: true,
+    historyApiFallback: true,
   },
   module: {
     rules: [
