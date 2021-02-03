@@ -1,0 +1,40 @@
+@import "mixins";
+@import "variables";
+
+.auth-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.auth {
+  width: 450px;
+  margin: 0 auto;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+
+  .form {
+    @include form();
+
+    input {
+      margin-bottom: 0.7rem;
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: space-evenly;
+
+      button {
+        width: 150px;
+      }
+
+      button.signin {
+        @include button($active-color);
+      }
+
+      button.signup {
+        @include button($hover-color);
+      }
+    }
+  }
+}

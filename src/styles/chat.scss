@@ -1,0 +1,38 @@
+@import "variables";
+@import "mixins";
+
+.chat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  max-height: 100vh;
+
+  &__header {
+    border-bottom: 1px solid $border-color;
+    padding: $content-wrapper-padding;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    padding: $content-wrapper-padding;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex-grow: 1;
+  }
+
+  &__footer {
+    border-top: 1px solid $border-color;
+    flex-shrink: 0;
+
+    .form {
+      @include form(row);
+
+       button {
+         @include button();
+         margin-left: 0.7rem;
+       }
+    }
+  }
+}

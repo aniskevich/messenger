@@ -1,0 +1,35 @@
+@import "variables";
+
+@mixin form($direction: column) {
+  padding: $content-wrapper-padding;
+  display: flex;
+  flex-direction: $direction;
+
+  & input {
+    border-radius: $border-radius;
+    width: 100%;
+    font-size: 14px;
+    border: 1px solid $border-color;
+    padding: $input-padding;
+    background-color: $primary-color;
+    color: $text-color;
+
+    &:active, &:focus {
+      border-color: $active-color;
+      outline: none;
+    }
+  }
+}
+
+@mixin button($color: $active-color) {
+  padding: $input-padding;
+  background-color: $color;
+  color: $text-color;
+  cursor: pointer;
+  border: none;
+  border-radius: $border-radius;
+
+  &:focus, &:active {
+    outline: none;
+  }
+}

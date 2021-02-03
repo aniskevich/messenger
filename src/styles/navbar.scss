@@ -1,0 +1,47 @@
+@import "variables";
+
+.navbar {
+  border-right: 1px solid $border-color;
+  text-align: center;
+  height: 100vh;
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+
+  .list__item {
+    list-style: none;
+    margin: 5px 20px;
+    color: $text-color;
+    border-radius: $border-radius;
+
+    &:first-child {
+      margin-top: 100px;
+    }
+
+    &:last-child {
+      margin-top: auto;
+
+      &:hover, &:active {
+        box-shadow: none;
+      }
+    }
+
+    &:hover {
+      background-color: $hover-color;
+    }
+
+    &:active {
+      background-color: $active-color;
+    }
+
+    & i {
+      width: 60px;
+      padding: 15px 0;
+      cursor: pointer;
+    }
+  }
+}

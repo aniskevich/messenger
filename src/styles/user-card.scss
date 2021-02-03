@@ -1,0 +1,31 @@
+@import "variables";
+
+.user-card {
+  color: $text-color;
+  display: flex;
+  align-items: center;
+
+  &.right {
+    justify-content: flex-end;
+  }
+
+  &__avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: black;
+    margin-right: 15px;
+  }
+
+  &__text {
+    h4 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+
+    p {
+      color: $secondary-text-color;
+    }
+  }
+}

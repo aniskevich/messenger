@@ -1,20 +1,18 @@
 import React from 'react'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import {Sidebar} from '../components/Sidebar/Sidebar'
-import {ChatPage} from '../pages/ChatPage'
-import {ProfilePage} from '../pages/ProfilePage'
-import {Content} from '../components/Content/Content'
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import {MessengerPage} from '../pages/MessengerPage'
+import {AuthPage} from '../pages/AuthPage'
+
+export const isAuth = true
 
 export const App: React.FC = () => {
-    return (
-        <Router>
-            <Sidebar />
-            <Content>
-                <Switch>
-                    <Route path ='/' component={ChatPage} exact/>
-                    <Route path ='/profile' component={ProfilePage}/>
-                </Switch>
-            </Content>
-        </Router>
-    )
+  return (
+    <Router>
+      <Switch>
+        <Route path='/' exact component={MessengerPage} />
+        <Route path='/auth' component={AuthPage} />
+        <Redirect to='/' />
+      </Switch>
+    </Router>
+  )
 }

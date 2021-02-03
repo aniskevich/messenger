@@ -1,8 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
 @import "~normalize.css";
 
+@import "variables";
+@import "navbar";
 @import "sidebar";
-@import "content";
+@import "chat";
+@import "user-card";
+@import "message";
+@import "auth";
 
 * {
   margin: 0;
@@ -13,4 +18,10 @@
 body {
   font-family: "Roboto", sans-serif;
   font-size: 12px;
+  background-color: $primary-color;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: $navbar-width $sidebar-width auto;
 }

@@ -1,10 +1,53 @@
 @import "variables";
+@import "mixins";
 
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: $sidebar-width;
-  height: 100vh;
-  background-color: $primary-color;
+  border-right: 1px solid $border-color;
+
+  &__header {
+    padding: 0 30px;
+    font-size: 26px;
+    color: $text-color;
+    font-weight: 600;
+    text-align: center;
+    line-height: 80px;
+    height: 80px;
+  }
+
+  .form {
+   @include form();
+  }
+
+  .list {
+
+    &__item {
+      padding: $content-wrapper-padding;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      border-bottom: 1px solid $border-color;
+      position: relative;
+      color: $text-color;
+
+      span {
+        font-size: 10px;
+        position: absolute;
+        top: 5px;
+        right: 15px;
+        color: $secondary-text-color;
+      }
+
+      &:hover {
+        .actions {
+          display: block;
+        }
+      }
+
+      & .actions {
+        margin-left: auto;
+        display: none;
+        cursor: pointer;
+      }
+    }
+  }
 }

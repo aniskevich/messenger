@@ -1,0 +1,29 @@
+@import "variables";
+
+.message {
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+
+  &.right {
+    align-self: flex-end;
+
+    .message__text p {
+      background-color: $active-color;
+    }
+  }
+
+  &__text {
+    margin-top: 1rem;
+
+    p {
+      border-radius: $border-radius;
+      padding: $input-padding;
+      background-color: $hover-color;
+      color: $text-color;
+      max-width: 400px;
+      line-height: 1.5;
+      text-align: justify;
+    }
+  }
+}
