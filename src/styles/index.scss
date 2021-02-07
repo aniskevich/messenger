@@ -8,6 +8,7 @@
 @import "user-card";
 @import "message";
 @import "auth";
+@import "loader";
 
 * {
   margin: 0;
@@ -19,6 +20,10 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 12px;
   background-color: $primary-color;
+}
+
+#app {
+  height: 100vh;
 }
 
 .container {

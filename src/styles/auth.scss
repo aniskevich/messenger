@@ -16,7 +16,7 @@
   .form {
     @include form();
 
-    input {
+    input, &__error {
       margin-bottom: 0.7rem;
     }
 

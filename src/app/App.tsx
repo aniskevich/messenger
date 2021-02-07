@@ -1,18 +1,13 @@
 import React from 'react'
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+
 import {MessengerPage} from '../pages/MessengerPage'
 import {AuthPage} from '../pages/AuthPage'
-
-export const isAuth = true
+import {getIsAuth} from '../redux/selectors'
 
 export const App: React.FC = () => {
+  const isAuth = useSelector(getIsAuth())
   return (
-    <Router>
-      <Switch>
-        <Route path='/' exact component={MessengerPage} />
-        <Route path='/auth' component={AuthPage} />
-        <Redirect to='/' />
-      </Switch>
-    </Router>
+    isAuth ? <MessengerPage /> : <AuthPage />
   )
 }

@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixins";
 
 .navbar {
   border-right: 1px solid $border-color;
@@ -18,6 +19,14 @@
     color: $text-color;
     border-radius: $border-radius;
 
+    .submenu {
+      display: none;
+
+      button {
+        @include button($hover-color);
+      }
+    }
+
     &:first-child {
       margin-top: 100px;
     }
@@ -27,6 +36,12 @@
 
       &:hover, &:active {
         box-shadow: none;
+        background-color: $hover-color;
+
+        .submenu {
+          display: flex;
+          flex-direction: column;
+        }
       }
     }
 

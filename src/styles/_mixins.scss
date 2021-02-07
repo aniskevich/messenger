@@ -19,6 +19,12 @@
       outline: none;
     }
   }
+
+  &__error {
+    padding: $input-padding;
+    color: $error-color;
+    text-align: center;
+  }
 }
 
 @mixin button($color: $active-color) {

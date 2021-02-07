@@ -20,7 +20,7 @@ export const Chat: React.FC<ChatType> = props => {
         <UserCard {...user}/>
       </div>
       <div className='chat__content'>
-        {messages.map(message => <Message {...message}/>)}
+        {messages.map(message => <Message {...message} key={Math.random()}/>)}
       </div>
       <div className='chat__footer'>
         <form className='form'>

@@ -1,9 +1,8 @@
 import React from 'react'
-import {Redirect} from 'react-router-dom'
+
 import {Navbar} from '../components/Navbar'
 import {Sidebar} from '../components/Sidebar'
 import {Chat} from '../components/Chat'
-import {isAuth} from '../app/App'
 
 const users = [
   {username: 'Byrom Guittet', text: 'What\'s up, how are you?', date: 'Yesterday'},
@@ -14,7 +13,6 @@ const users = [
 
 
 export const MessengerPage: React.FC = () => {
-  if (!isAuth) return <Redirect to='/auth'/>
   return (
     <div className='container'>
       <Navbar/>

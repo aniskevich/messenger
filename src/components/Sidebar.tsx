@@ -19,7 +19,7 @@ export const Sidebar: React.FC<SidebarType> = props => {
       <div className='list'>
         {users.map(user => {
           return (
-            <div className='list__item'>
+            <div className='list__item' key={Math.random()}>
               <span>{user.date}</span>
               <UserCard {...user}/>
               <div className='actions'>
