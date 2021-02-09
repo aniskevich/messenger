@@ -72,7 +72,6 @@ const checkAuth = async (req, res) => {
   }
 }
 
-
 module.exports = {
   signIn,
   signUp,

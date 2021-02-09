@@ -1,23 +1,26 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 
 import {Navbar} from '../components/Navbar'
 import {Sidebar} from '../components/Sidebar'
 import {Chat} from '../components/Chat'
-
-const users = [
-  {username: 'Byrom Guittet', text: 'What\'s up, how are you?', date: 'Yesterday'},
-  {username: 'Forest Kroch', text: 'Photo', date: '10:22'},
-  {username: 'Marvin Rohan', text: 'Have you prepared the files?', date: '22:43'}
-]
-
-
+import {getActiveNavigation, getEntities} from '../redux/selectors'
+import {initialize} from '../redux/reducers/appReducer'
 
 export const MessengerPage: React.FC = () => {
+  const dispatch = useDispatch()
+  const title = useSelector(getActiveNavigation())
+  const entities = useSelector(getEntities[title]())
+
+  useEffect(() => {
+    dispatch(initialize())
+  }, [])
+
   return (
     <div className='container'>
       <Navbar/>
-      <Sidebar title='chats' users={users}/>
-      <Chat user={users[1]}/>
+      <Sidebar title={title} entities={entities}/>
+      <Chat/>
     </div>
   )
 }

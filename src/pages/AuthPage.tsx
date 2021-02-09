@@ -2,8 +2,8 @@ import React, {useEffect} from 'react'
 import {useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 
-import {auth, checkAuth} from '../redux/reducers/userReducer'
-import {getIsLoading} from '../redux/selectors'
+import {auth, checkAuth} from '../redux/reducers/authReducer'
+import {getIsLoadingAuth} from '../redux/selectors'
 import {Loader} from '../components/Loader'
 
 export const AuthPage: React.FC = () => {
@@ -13,7 +13,7 @@ export const AuthPage: React.FC = () => {
 
   const dispatch = useDispatch()
 
-  const isLoading = useSelector(getIsLoading())
+  const isLoading = useSelector(getIsLoadingAuth())
 
   const formik = useFormik({
     initialValues: {

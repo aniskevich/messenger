@@ -1,11 +1,13 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 
-import {userReducer} from './reducers/userReducer'
+import {authReducer} from './reducers/authReducer'
+import {appReducer} from './reducers/appReducer'
 
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  auth: authReducer,
+  app: appReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

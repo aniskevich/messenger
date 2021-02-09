@@ -1,13 +1,36 @@
 import React from 'react'
-import {UserCard, UserType} from './UserCard'
+import {useDispatch, useSelector} from 'react-redux'
 
-type SidebarType = {
+import {SidebarItem} from './SidebarItem'
+import {createChat, deleteChat} from '../redux/reducers/appReducer'
+import {Loader} from './Loader'
+import {getIsLoadingSidebar} from '../redux/selectors'
+import {EntityType} from '../api/chatAPI'
+
+type SidebarPropsType = {
   title: string
-  users: Array<UserType>
+  entities: Array<EntityType>
 }
 
-export const Sidebar: React.FC<SidebarType> = props => {
-  const { title, users } = props
+export const Sidebar: React.FC<SidebarPropsType> = ({title, entities}) => {
+  const actionName = title === 'chats' ? 'close' : 'add'
+  const dispatch = useDispatch()
+  const isLoading = useSelector(getIsLoadingSidebar())
+
+  const handleClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement
+    if (target.hasAttribute('data-type')) {
+      const action = target.getAttribute('data-type')
+      const id = target.getAttribute('data-id')
+      if (action === 'add') {
+        dispatch(createChat(id))
+      } else if (action === 'close') {
+        dispatch(deleteChat(id))
+      }
+    }
+  }
+
+  if (isLoading) return <Loader/>
   return (
     <div className='sidebar'>
       <header className='sidebar__header'>
@@ -16,18 +39,17 @@ export const Sidebar: React.FC<SidebarType> = props => {
       <form className='form'>
         <input type='text' placeholder={`Search in ${title}`}/>
       </form>
-      <div className='list'>
-        {users.map(user => {
-          return (
-            <div className='list__item' key={Math.random()}>
-              <span>{user.date}</span>
-              <UserCard {...user}/>
-              <div className='actions'>
-                <i className='material-icons'>close</i>
-              </div>
-            </div>
-          )
-        })}
+      <div className='list' onClick={handleClick}>
+        {entities.length > 0 && entities.map(entity =>
+          <SidebarItem
+            _id={entity._id}
+            header={entity.name}
+            text={entity.text}
+            actionName={actionName}
+            spanText={entity.info}
+            key={entity._id}
+          />
+        )}
       </div>
     </div>
   )
