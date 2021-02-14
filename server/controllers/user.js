@@ -18,10 +18,11 @@ const signIn = (req, res) => {
           message: 'Email or Password is Wrong',
         })
       } else {
-        const token = utils.generateToken(user)
+        const {token, ...newUser} = utils.generateToken(user)
         return res.status(200).json({
           statusCode: 0,
           token,
+          user: newUser.user
         })
       }
     })
@@ -41,10 +42,11 @@ const signUp = (req, res) => {
     const newUser = new User({email: body.email, password: hash})
     newUser.save()
       .then(newUser => {
-        const token = utils.generateToken(newUser)
+        const {token, ...u} = utils.generateToken(newUser)
         res.status(200).json({
           statusCode: 0,
           token,
+          user: u.user
         })
       })
       .catch(err => {
@@ -72,8 +74,30 @@ const checkAuth = async (req, res) => {
   }
 }
 
+const updateProfile = async (req, res) => {
+  const token = req.headers['authorization'].split(' ')[1]
+  if (!token) {
+    return res.status(401).json({
+      statusCode: 1,
+      message: 'Unauthorized',
+    })
+  }
+  const response = await utils.verifyToken(token)
+  if (response.statusCode !== 0) {
+    return res.status(401).json(response)
+  } else {
+    const {_id, email, ...rest} = req.body
+    const user = await User.findByIdAndUpdate(response.user.id, rest, {new: true, select: '_id username email status info'})
+    res.status(200).json({
+      statusCode: 0,
+      user
+    })
+  }
+}
+
 module.exports = {
   signIn,
   signUp,
-  checkAuth
+  checkAuth,
+  updateProfile
 }

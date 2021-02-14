@@ -20,12 +20,16 @@ export const NavbarItem: React.FC<{name: string, iconName: string}> = ({name, ic
     dispatch(logout())
   }
 
+  const handleProfileIsVisible = () => {
+    dispatch(actions.setIsProfileVisible(true))
+  }
+
   if (name === 'actions') {
     return (
       <li className='list__item'>
         <i className='material-icons'>{iconName}</i>
         <div className='submenu'>
-          <button>Profile</button>
+          <button onClick={handleProfileIsVisible}>Profile</button>
           <button onClick={handleLogout}>Logout</button>
         </div>
       </li>

@@ -9,6 +9,7 @@
 @import "message";
 @import "auth";
 @import "loader";
+@import "profile";
 
 * {
   margin: 0;
@@ -28,5 +29,5 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: $navbar-width $sidebar-width auto;
+  grid-template-columns: $navbar-width $sidebar-width auto min-content;
 }

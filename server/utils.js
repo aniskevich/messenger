@@ -9,10 +9,14 @@ generateToken = user => {
   const u = {
     email: user.email,
     _id: user._id.toString(),
+    status: user.status,
+    info: user.info,
+    username: user.username
   }
-  return jwt.sign(u, SECRET, {
+  const token = jwt.sign(u, SECRET, {
     expiresIn: 60 * 60 * 24,
   })
+  return {token, user: u}
 }
 
 verifyToken = token => {
@@ -40,7 +44,13 @@ verifyToken = token => {
 
 const generateContacts = async userId => {
   let chats = await Chat.find({members: userId})
-  chats = chats.map(c => c.members.filter(m => m !== userId)).flat()
+  chats = chats.map(c => {
+    if (c.members.length > 1) {
+      return c.members.filter(m => m !== userId)
+    } else {
+      return c.deletedMembers[0]
+    }
+  }).flat()
   chats.push(userId)
   const users = await User.find({_id: {$nin: chats}}, '_id username status info')
   return users.map(generateContact)
@@ -57,13 +67,13 @@ const generateContact = user => {
 
 const generateChats = async userId => {
   const chats = await Chat.find({members: userId})
-  return await Promise.all(chats.map(generateChat))
+  return await Promise.all(chats.map(chat => generateChat(chat, userId)))
 }
 
 const generateChat = async (chat, userId) => {
   const id = chat.members.length > 1
     ? chat.members.filter(m => m !== userId)[0]
-    : chat.deletedMembers[1]
+    : chat.deletedMembers[0]
   const user = await User.findById(id, 'username').exec()
   return {
     _id: chat._id,

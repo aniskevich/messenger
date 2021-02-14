@@ -8,7 +8,8 @@ const initialState = {
   activeNavigation: 'chats',
   isLoading: false,
   chats: [] as Array<EntityType>,
-  contacts: [] as Array<EntityType>
+  contacts: [] as Array<EntityType>,
+  isProfileVisible: false
 }
 
 type InitialStateType = typeof initialState
@@ -38,6 +39,8 @@ export const appReducer = (
         chats: state.chats.filter(c => c._id !== action.payload.chatId),
         contacts: state.contacts.concat(action.payload.user)
       }
+    case 'SET_IS_PROFILE_VISIBLE':
+      return {...state, isProfileVisible: action.payload}
     default:
       return state
   }
@@ -58,7 +61,9 @@ export const actions = {
   addChat: (chat: EntityType, userId: string) =>
     ({type: 'ADD_CHAT', payload: {chat, userId}} as const),
   removeChat: (user: EntityType, chatId: string) =>
-    ({type: 'REMOVE_CHAT', payload: {user, chatId}} as const)
+    ({type: 'REMOVE_CHAT', payload: {user, chatId}} as const),
+  setIsProfileVisible: (payload: boolean) =>
+    ({type: 'SET_IS_PROFILE_VISIBLE', payload} as const)
 }
 
 export const initialize = (): ThunkAction<void, RootState, undefined, ActionsType> => async dispatch => {

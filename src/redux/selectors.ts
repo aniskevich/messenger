@@ -1,5 +1,6 @@
 import { RootState } from './store'
 import {EntityType} from '../api/chatAPI'
+import {UserType} from '../api/api'
 
 export const getIsAuth = () => (state: RootState): boolean => state.auth.isAuth
 export const getIsLoadingAuth = () => (state: RootState): boolean => state.auth.isLoading
@@ -16,3 +17,7 @@ export const getEntities: GetEntitiesType = {
 }
 
 export const getIsLoadingSidebar = () => (state: RootState): boolean => state.app.isLoading
+
+export const getCurrentUser = () => (state: RootState): UserType => state.auth.currentUser
+
+export const getIsProfileVisible = () => (state: RootState): boolean => state.app.isProfileVisible

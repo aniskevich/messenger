@@ -5,13 +5,7 @@
   border-right: 1px solid $border-color;
 
   &__header {
-    padding: 0 30px;
-    font-size: 26px;
-    color: $text-color;
-    font-weight: 600;
-    text-align: center;
-    line-height: 80px;
-    height: 80px;
+    @include header();
   }
 
   .form {

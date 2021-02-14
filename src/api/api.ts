@@ -5,10 +5,12 @@ export enum StatusCode {
   Error = 1
 }
 
-type CheckAuthResponseType = {
-  statusCode: StatusCode
-  message?: string
-  user?: any
+export type UserType = {
+  _id: string
+  username: string
+  email: string
+  status: string
+  info: string
 }
 
 export type AuthRequestDataType = {
@@ -21,10 +23,11 @@ type AuthResponseType = {
   statusCode: StatusCode
   message?: string
   token?: string
+  user?: UserType
 }
 
 export const API = {
-  async checkAuth(token: string): Promise<CheckAuthResponseType> {
+  async checkAuth(token: string): Promise<AuthResponseType> {
     try {
       const response = await fetch(`${API_URL}/auth/`, {
         method: 'GET',
@@ -45,6 +48,22 @@ export const API = {
         mode: 'cors',
         headers: {
           'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      })
+      return await response.json()
+    } catch (e) {
+      throw new Error(e.message)
+    }
+  },
+  async updateProfile(values: UserType, token: string): Promise<AuthResponseType> {
+    try {
+      const response = await fetch(`${API_URL}/auth/update`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(values)
       })
