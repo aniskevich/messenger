@@ -9,7 +9,8 @@ const initialState = {
   isLoading: false,
   chats: [] as Array<EntityType>,
   contacts: [] as Array<EntityType>,
-  isProfileVisible: false
+  isProfileVisible: false,
+  activeChatId: ''
 }
 
 type InitialStateType = typeof initialState
@@ -41,6 +42,8 @@ export const appReducer = (
       }
     case 'SET_IS_PROFILE_VISIBLE':
       return {...state, isProfileVisible: action.payload}
+    case 'SET_ACTIVE_CHAT_ID':
+      return {...state, activeChatId: action.payload}
     default:
       return state
   }
@@ -63,7 +66,9 @@ export const actions = {
   removeChat: (user: EntityType, chatId: string) =>
     ({type: 'REMOVE_CHAT', payload: {user, chatId}} as const),
   setIsProfileVisible: (payload: boolean) =>
-    ({type: 'SET_IS_PROFILE_VISIBLE', payload} as const)
+    ({type: 'SET_IS_PROFILE_VISIBLE', payload} as const),
+  setActiveChatId: (payload: string) =>
+    ({type: 'SET_ACTIVE_CHAT_ID', payload} as const)
 }
 
 export const initialize = (): ThunkAction<void, RootState, undefined, ActionsType> => async dispatch => {
@@ -91,6 +96,7 @@ export const createChat = (
     const data = await chatAPI.createChat(userId, token)
     if (data.statusCode === StatusCode.Success) {
       dispatch(actions.addChat(data.entity, data.entityId))
+      dispatch(actions.setActiveChatId(data.entity._id))
     }
     dispatch(actions.setIsLoading(false))
   } catch (e) {

@@ -2,9 +2,9 @@ import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 
 import {SidebarItem} from './SidebarItem'
-import {createChat, deleteChat} from '../redux/reducers/appReducer'
+import {createChat, deleteChat, actions} from '../redux/reducers/appReducer'
 import {Loader} from './Loader'
-import {getIsLoadingSidebar} from '../redux/selectors'
+import {getActiveChatId, getIsLoadingSidebar} from '../redux/selectors'
 import {EntityType} from '../api/chatAPI'
 
 type SidebarPropsType = {
@@ -16,6 +16,7 @@ export const Sidebar: React.FC<SidebarPropsType> = ({title, entities}) => {
   const actionName = title === 'chats' ? 'close' : 'add'
   const dispatch = useDispatch()
   const isLoading = useSelector(getIsLoadingSidebar())
+  const activeChatId = useSelector(getActiveChatId())
 
   const handleClick = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement
@@ -26,7 +27,13 @@ export const Sidebar: React.FC<SidebarPropsType> = ({title, entities}) => {
         dispatch(createChat(id))
       } else if (action === 'close') {
         dispatch(deleteChat(id))
+        if (id === activeChatId) {
+          dispatch(actions.setActiveChatId(''))
+        }
       }
+    } else if (target.hasAttribute('data-chat')) {
+      const id = target.getAttribute('data-chat')
+      dispatch(actions.setActiveChatId(id))
     }
   }
 

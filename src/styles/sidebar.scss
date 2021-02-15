@@ -31,6 +31,10 @@
         color: $secondary-text-color;
       }
 
+      &.active {
+        background-color: $hover-color;
+      }
+
       &:hover {
         .actions {
           display: block;

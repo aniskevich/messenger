@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {Navbar} from '../components/Navbar'
 import {Sidebar} from '../components/Sidebar'
 import {Chat} from '../components/Chat'
-import {getActiveNavigation, getEntities, getIsProfileVisible} from '../redux/selectors'
+import {getActiveChatId, getActiveNavigation, getEntities, getIsProfileVisible} from '../redux/selectors'
 import {initialize} from '../redux/reducers/appReducer'
 import {Profile} from '../components/Profile'
 
@@ -13,6 +13,7 @@ export const MessengerPage: React.FC = () => {
   const title = useSelector(getActiveNavigation())
   const entities = useSelector(getEntities[title]())
   const isVisibleProfile = useSelector(getIsProfileVisible())
+  const activeChatId = useSelector(getActiveChatId())
 
   useEffect(() => {
     dispatch(initialize())
@@ -22,7 +23,7 @@ export const MessengerPage: React.FC = () => {
     <div className='container'>
       <Navbar/>
       <Sidebar title={title} entities={entities}/>
-      <Chat/>
+      {activeChatId ? <Chat/> : <div></div>}
       {isVisibleProfile && <Profile/>}
     </div>
   )

@@ -21,3 +21,7 @@ export const getIsLoadingSidebar = () => (state: RootState): boolean => state.ap
 export const getCurrentUser = () => (state: RootState): UserType => state.auth.currentUser
 
 export const getIsProfileVisible = () => (state: RootState): boolean => state.app.isProfileVisible
+
+export const getActiveChatId = () => (state: RootState): string => state.app.activeChatId
+
+export const getChat = () => (state: RootState): EntityType => state.app.chats.filter(chat => chat._id === state.app.activeChatId)[0]
