@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 
 const User = require('./models/user')
 const Chat = require('./models/chat')
+const Message = require('./models/message')
 
 const SECRET = 'SECRET'
 
@@ -75,11 +76,18 @@ const generateChat = async (chat, userId) => {
     ? chat.members.filter(m => m !== userId)[0]
     : chat.deletedMembers[0]
   const user = await User.findById(id, 'username').exec()
+  const message = (await Message.find({chatId: chat._id}).sort({ createdAt: -1 }).limit(1).exec())[0]
+  let text = '...'
+  let info = '...'
+  if (message) {
+    text = message.message
+    info = (new Date(message.createdAt)).toLocaleDateString()
+  }
   return {
     _id: chat._id,
     name: user.username,
-    text: 'Last message text...',
-    info: 'Message date'
+    text: text,
+    info: info
   }
 }
 
