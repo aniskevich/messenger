@@ -1,4 +1,4 @@
-import {API_URL, StatusCode} from './api'
+import {API_URL, StatusCode} from '../constants'
 
 export type EntityType = {
   _id: string

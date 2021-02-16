@@ -1,8 +1,10 @@
 import {ThunkAction} from 'redux-thunk'
 
 import {RootState} from '../store'
-import {StatusCode} from '../../api/api'
 import {chatAPI, EntityType} from '../../api/chatAPI'
+import {messageAPI} from '../../api/messageAPI'
+import {StatusCode} from '../../constants'
+import {setMessages, setMessage} from './messageReducer'
 
 const initialState = {
   activeNavigation: 'chats',
@@ -10,7 +12,8 @@ const initialState = {
   chats: [] as Array<EntityType>,
   contacts: [] as Array<EntityType>,
   isProfileVisible: false,
-  activeChatId: ''
+  activeChatId: '',
+  subscriber: null as (() => void) | null
 }
 
 type InitialStateType = typeof initialState
@@ -44,6 +47,8 @@ export const appReducer = (
       return {...state, isProfileVisible: action.payload}
     case 'SET_ACTIVE_CHAT_ID':
       return {...state, activeChatId: action.payload}
+    case 'SET_SUBSCRIBER':
+      return {...state, subscriber: action.payload}
     default:
       return state
   }
@@ -68,7 +73,9 @@ export const actions = {
   setIsProfileVisible: (payload: boolean) =>
     ({type: 'SET_IS_PROFILE_VISIBLE', payload} as const),
   setActiveChatId: (payload: string) =>
-    ({type: 'SET_ACTIVE_CHAT_ID', payload} as const)
+    ({type: 'SET_ACTIVE_CHAT_ID', payload} as const),
+  setSubscriber: (payload: () => void | null) =>
+    ({type: 'SET_SUBSCRIBER', payload} as const),
 }
 
 export const initialize = (): ThunkAction<void, RootState, undefined, ActionsType> => async dispatch => {
@@ -79,6 +86,13 @@ export const initialize = (): ThunkAction<void, RootState, undefined, ActionsTyp
     if (data.statusCode === StatusCode.Success) {
       dispatch(actions.setContacts(data.contacts))
       dispatch(actions.setChats(data.chats))
+      messageAPI.start(token, (messages) => {
+        dispatch(setMessages(messages))
+      })
+      const unsub = messageAPI.subscribe((message) => {
+        dispatch(setMessage(message))
+      })
+      dispatch(actions.setSubscriber(unsub))
     }
     dispatch(actions.setIsLoading(false))
   } catch (e) {
@@ -120,4 +134,11 @@ export const deleteChat = (
     console.warn(e.message)
     dispatch(actions.setIsLoading(false))
   }
+}
+
+export const cleanUp = (): ThunkAction<void, RootState, undefined, ActionsType> => (dispatch, getState) => {
+  getState().app.subscriber()
+  dispatch(actions.setSubscriber(null))
+  dispatch(actions.setActiveChatId(''))
+  messageAPI.stop()
 }

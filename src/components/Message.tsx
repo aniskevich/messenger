@@ -2,17 +2,18 @@ import React from 'react'
 import {UserCard} from './UserCard'
 
 type MessageType = {
-  text: string
+  message: string
   user: any
+  date: string
 }
 
 export const Message: React.FC<MessageType> = props => {
-  const { text, user } = props
+  const { message, user, date } = props
   return (
       <div className={`message ${user.right ? 'right' : ''}`}>
-        <UserCard header={user.username} text={user.status} right={user.right} />
+        <UserCard header={user.username} text={date} right={user.right} />
         <div className='message__text'>
-          <p>{text}</p>
+          <p>{message}</p>
         </div>
       </div>
   )

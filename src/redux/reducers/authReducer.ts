@@ -1,7 +1,9 @@
 import {ThunkAction} from 'redux-thunk'
 
 import {RootState} from '../store'
-import {API, AuthRequestDataType, StatusCode, UserType} from '../../api/api'
+import {API, AuthRequestDataType, UserType} from '../../api/api'
+import {StatusCode} from '../../constants'
+import {cleanUp} from './appReducer'
 
 const initialState = {
   isLoading: false,
@@ -62,6 +64,7 @@ export const auth = (
 
 export const logout = (): ThunkAction<void, RootState, undefined, ActionsType> => dispatch => {
   localStorage.removeItem('token')
+  dispatch(cleanUp())
   dispatch(actions.setCurrentUser(null))
   dispatch(actions.setIsAuth(false))
 }

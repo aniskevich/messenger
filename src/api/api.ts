@@ -1,9 +1,4 @@
-export const API_URL = 'http://localhost:3000'
-
-export enum StatusCode {
-  Success = 0,
-  Error = 1
-}
+import {API_URL, StatusCode} from '../constants'
 
 export type UserType = {
   _id: string

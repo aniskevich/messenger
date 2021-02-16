@@ -25,3 +25,5 @@ export const getIsProfileVisible = () => (state: RootState): boolean => state.ap
 export const getActiveChatId = () => (state: RootState): string => state.app.activeChatId
 
 export const getChat = () => (state: RootState): EntityType => state.app.chats.filter(chat => chat._id === state.app.activeChatId)[0]
+
+export const getMessage = (chatId: string) => (state: RootState) => state.message.messages.filter(m => m.chatId === chatId)
